@@ -1,0 +1,169 @@
+﻿<Window x:Class="WPFSnake.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFSnake"
+        mc:Ignorable="d"
+        Title="Snake AI" Height="800" Width="1600" Initialized="Window_Initialized" ResizeMode="NoResize">
+    <Grid Name="MainGrid" Background="LightGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="800"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+        <Grid Name="MenuGrid" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="3" Grid.Column="0"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="4" Grid.Column="0"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="5" Grid.Column="0"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="6" Grid.Column="0"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="7" Grid.Column="0"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="8" Grid.Column="0"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="9" Grid.Column="0"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="3" Grid.Column="1"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="4" Grid.Column="1"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="5" Grid.Column="1"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="6" Grid.Column="1"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="7" Grid.Column="1"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="8" Grid.Column="1"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="9" Grid.Column="1"/>
+            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="6"/>
+            
+            <TextBlock FontSize="20" Grid.Row="3" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">Epoka:</TextBlock>
+            <TextBlock FontSize="20" Grid.Row="4" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">Śr. fitness:</TextBlock>
+            <TextBlock FontSize="20" Grid.Row="5" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">Maks. fitness:</TextBlock>
+            <TextBlock FontSize="20" Grid.Row="6" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">Akt. fitness:</TextBlock>
+            <TextBlock FontSize="20" Grid.Row="7" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">Nazwa:</TextBlock>
+            <TextBlock FontSize="20" Grid.Row="8" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">Populacja:</TextBlock>
+            <TextBlock FontSize="20" Grid.Row="9" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">Maks. epoka:</TextBlock>
+
+            <TextBlock Name="EpochBlock" FontSize="20" Grid.Row="3" Grid.Column="1" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
+            <TextBlock Name="MeanBlock" FontSize="20" Grid.Row="4" Grid.Column="1" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
+            <TextBlock Name="MaxBlock" FontSize="20" Grid.Row="5" Grid.Column="1" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
+            <TextBlock Name="ActBlock" FontSize="20" Grid.Row="6" Grid.Column="1" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
+            <TextBox Name="NameBox" FontSize="20" Grid.Row="7" Grid.Column="1" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="LightGray" BorderThickness="0" ClipToBounds="True"></TextBox>
+            <TextBox Name="PopBOX" FontSize="20" Grid.Row="8" Grid.Column="1" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="LightGray" BorderThickness="0" ClipToBounds="True">80</TextBox>
+            <TextBox Name="EpochBox" FontSize="20" Grid.Row="9" Grid.Column="1" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="LightGray" BorderThickness="0" ClipToBounds="True">100</TextBox>
+
+            <Button Name="LoadBest" Grid.Row="0" Grid.Column="0" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="LoadBest_Click">Wczytaj pierwszy mózg</Button>
+            <Button Name="TeachPopulation" Grid.Row="0" Grid.Column="1" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="TeachPopulation_Click">Ucz pierwszy mózg</Button>
+            <Button Name="LoadSecondBest" Grid.Row="1" Grid.Column="0" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="LoadSecondBest_Click">Wczytaj drugi mózg</Button>
+            <Button Name="TeachPopulation2" Grid.Row="1" Grid.Column="1" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="TeachPopulation2_Click">Ucz drugi mózg</Button>
+            <Button Name="ResetButton" Grid.Row="2" Grid.Column="0" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="ResetButton_Click">Reset</Button>
+            <Button Name="SaveButton" Grid.Row="2" Grid.Column="1" FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="SaveButton_Click">Zapisz</Button>
+        </Grid>
+        <Grid Name="Board" Background="Black" Grid.Column="1">
+        </Grid>
+
+        <Canvas Name="Canv" Grid.Column="2">
+            <Line X1="75" X2="170" Y1="80" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="135" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="190" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="245" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="300" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="355" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="410" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="465" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="525" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="580" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="635" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="690" Y2="300" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+           
+            <Line X1="75" X2="170" Y1="80" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="135" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="190" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="245" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="300" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="355" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="410" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="465" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="525" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="580" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="635" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="690" Y2="355" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+
+            <Line X1="75" X2="170" Y1="80" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="135" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="190" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="245" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="300" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="355" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="410" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="465" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="525" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="580" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="635" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="690" Y2="410" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+
+            <Line X1="75" X2="170" Y1="80" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="135" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="190" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="245" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="300" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="355" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="410" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="465" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="525" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="580" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="635" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+            <Line X1="75" X2="170" Y1="690" Y2="465" StrokeThickness="1" Visibility="Visible" Stroke="Black"></Line>
+        </Canvas>
+        <Grid Name="BrainGRID" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Rectangle Name="Neuro1" Grid.Row="1" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro2" Grid.Row="2" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro3" Grid.Row="3" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro4" Grid.Row="4" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro5" Grid.Row="5" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro6" Grid.Row="6" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro7" Grid.Row="7" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro8" Grid.Row="8" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro9" Grid.Row="9" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro10" Grid.Row="10" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro11" Grid.Row="11" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro12" Grid.Row="12" Grid.Column="0" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+
+            <Rectangle Name="Neuro13" Grid.Row="5" Grid.Column="1" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro14" Grid.Row="6" Grid.Column="1" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro15" Grid.Row="7" Grid.Column="1" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+            <Rectangle Name="Neuro16" Grid.Row="8" Grid.Column="1" Fill="Red" Width="20" Height="20" Opacity="1"></Rectangle>
+        </Grid>
+    </Grid>
+</Window>
